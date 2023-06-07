@@ -1,4 +1,4 @@
-package uz.pdp.hackerrank.entity.dto;
+package uz.pdp.hackerrank.dto;
 import lombok.*;
 import uz.pdp.hackerrank.entity.user.UserRole;
 
