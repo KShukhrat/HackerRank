@@ -11,4 +11,8 @@ import uz.pdp.hackerrank.entity.BaseModel;
 @Builder
 public class QuestionEntity extends BaseModel {
 
+    private String title;
+    private QuestionTheme theme;
+    private QuestionType questionType;
+
 }
