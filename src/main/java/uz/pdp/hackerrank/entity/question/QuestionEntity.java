@@ -3,12 +3,12 @@ package uz.pdp.hackerrank.entity.question;
 import jakarta.persistence.Entity;
 import lombok.*;
 import uz.pdp.hackerrank.entity.BaseModel;
-@Entity
+@Entity(name = "question")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class Question extends BaseModel {
+public class QuestionEntity extends BaseModel {
 
 }
