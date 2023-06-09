@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import lombok.*;
 import uz.pdp.hackerrank.entity.BaseModel;
 
-
 @Entity(name = "question")
 @AllArgsConstructor
 @NoArgsConstructor
