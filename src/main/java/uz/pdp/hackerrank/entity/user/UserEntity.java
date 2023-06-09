@@ -25,7 +25,7 @@ public class UserEntity extends BaseModel implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private List<UserRole> roles;
-    private Boolean hasBlocked;
+    private Boolean hasBlocked=false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
