@@ -12,6 +12,6 @@ import java.util.UUID;
 @Repository
 public interface QuestionRepository  extends JpaRepository<QuestionEntity, UUID>{
 
-    List<QuestionEntity> findQuestionEntitiesByThemeEqualsIgnoreCaseAndQuestionTypeContainsIgnoreCase(QuestionTheme theme, QuestionType type);
+    List<QuestionEntity> findQuestionEntitiesByThemeAndQuestionType(QuestionTheme theme, QuestionType questionType);
 
 }

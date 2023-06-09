@@ -39,7 +39,7 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     public List<QuestionEntity> findByThemeAndType(QuestionTheme theme, QuestionType type){
-        return questionRepository.findQuestionEntitiesByThemeEqualsIgnoreCaseAndQuestionTypeContainsIgnoreCase(theme, type);
+        return questionRepository.findQuestionEntitiesByThemeAndQuestionType(theme, type);
     }
 
 }
