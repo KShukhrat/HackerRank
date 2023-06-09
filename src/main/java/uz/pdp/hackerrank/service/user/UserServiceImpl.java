@@ -58,4 +58,24 @@ public class UserServiceImpl implements UserService{
         userEntity.setHasBlocked(false);
         return true;
     }
+
+    @Override
+    public void deleteById(UUID userId) {
+        UserEntity found = userRepository.findById(userId).orElseThrow(
+                () -> new DataNotFoundException("UserId not found")
+        );
+        userRepository.deleteById(userId);
+    }
+
+    @Override
+    public UserEntity edit(UserCreateDto user, UUID id,Boolean hasBlocked ) {
+        UserEntity found = userRepository.findById(id).orElseThrow(
+                () -> new DataNotFoundException("UserId not found")
+        );
+        UserEntity userEntity = modelMapper.map(user, UserEntity.class);
+        userEntity.setUpdatedDate(found.getCreatedDate());
+        userEntity.setId(found.getId());
+        return userRepository.save(userEntity);
+    }
+
 }
