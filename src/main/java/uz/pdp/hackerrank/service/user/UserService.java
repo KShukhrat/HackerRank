@@ -14,4 +14,8 @@ public interface UserService {
     JwtResponse login(LoginDto login);
     Boolean blockUser(UUID userId);
     Boolean unblockUser(UUID userId);
+
+    void deleteById(UUID userId);
+
+    UserEntity edit(UserCreateDto user, UUID id, Boolean hasBlocked);
 }
