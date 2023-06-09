@@ -4,18 +4,16 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 import uz.pdp.hackerrank.entity.user.UserEntity;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import static org.apache.catalina.realm.UserDatabaseRealm.getRoles;
-
+@Service
 public class JwtService {
 
     @Value("${jwt.secret.key}")

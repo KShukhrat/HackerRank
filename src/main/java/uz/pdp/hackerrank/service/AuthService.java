@@ -16,7 +16,7 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findUserEntityByUsername(username)
                 .orElseThrow(
-                        () -> new DataNotFoundException("user not found")
+                        () -> new DataNotFoundException("USER NOT FOUND")
                 );
     }
 }
