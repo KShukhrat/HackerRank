@@ -17,5 +17,4 @@ public class QuestionEntity extends BaseModel {
     private String answer;
     private QuestionTheme theme;
     private QuestionType questionType;
-
 }
