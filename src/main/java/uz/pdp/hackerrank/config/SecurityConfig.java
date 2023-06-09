@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests((authorizer) -> {
                     authorizer
-                            .requestMatchers("/team4/hacker/auth/**").permitAll()
+                            .requestMatchers("/api/v1/auth/**").permitAll()
                             .anyRequest().authenticated();
 
                 })

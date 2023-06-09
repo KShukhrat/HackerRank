@@ -1,4 +1,4 @@
-package uz.pdp.hackerrank.service;
+package uz.pdp.hackerrank.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -11,21 +11,21 @@ import uz.pdp.hackerrank.entity.user.UserEntity;
 import uz.pdp.hackerrank.entity.user.UserRole;
 import uz.pdp.hackerrank.exception.DataNotFoundException;
 import uz.pdp.hackerrank.repository.UserRepository;
+import uz.pdp.hackerrank.service.JwtService;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public UserEntity save(UserCreateDto userDto, List<UserRole> roles) {
+    public UserEntity save(UserCreateDto userDto) {
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
-        userEntity.setRoles(roles);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         return userRepository.save(userEntity);
     }
