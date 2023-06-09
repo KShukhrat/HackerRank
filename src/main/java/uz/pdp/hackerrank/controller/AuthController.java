@@ -22,9 +22,9 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<UserEntity> signUp(@Valid
-                                             @RequestBody UserCreateDto userCreated,
-                                             BindingResult bindingResult
+    public ResponseEntity<UserEntity> signUp(
+            @Valid @RequestBody UserCreateDto userCreated,
+            BindingResult bindingResult
     ) {
         if(bindingResult.hasErrors()){
             List<ObjectError> allErrors=bindingResult.getAllErrors();
