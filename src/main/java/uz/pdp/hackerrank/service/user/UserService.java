@@ -18,4 +18,5 @@ public interface UserService {
     void deleteById(UUID userId);
 
     UserEntity edit(UserCreateDto user, UUID id, Boolean hasBlocked);
+    UserEntity getById(UUID userId);
 }
