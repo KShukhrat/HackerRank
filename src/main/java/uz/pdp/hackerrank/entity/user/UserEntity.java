@@ -25,11 +25,8 @@ public class UserEntity extends BaseModel implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private List<UserRole> roles;
-<<<<<<<<< Temporary merge branch 1
     private Boolean hasBlocked=false;
-=========
-    private Boolean hasBlocked=Boolean.FALSE;
->>>>>>>>> Temporary merge branch 2
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
