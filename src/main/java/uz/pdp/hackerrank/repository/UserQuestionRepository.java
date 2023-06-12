@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface UserQuestionRepository extends JpaRepository<UserQuestion, UUID> {
   List<UserQuestion> findUserQuestionsByUser(UserEntity userEntity);
+  List<UserQuestion> findUserQuestionsByQuestionId(UUID questionId);
 }

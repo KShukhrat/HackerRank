@@ -9,6 +9,7 @@ import uz.pdp.hackerrank.entity.user.UserEntity;
 import uz.pdp.hackerrank.repository.UserQuestionRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,5 +25,10 @@ public class UserQuestionServiceImpl implements UserQuestionService{
     @Override
     public List<UserQuestion> getUserQuestions(UserEntity userEntity) {
         return userQuestionRepository.findUserQuestionsByUser(userEntity);
+    }
+
+    @Override
+    public List<UserQuestion> getByQuestionId(UUID questionId) {
+        return userQuestionRepository.findUserQuestionsByQuestionId(questionId);
     }
 }
