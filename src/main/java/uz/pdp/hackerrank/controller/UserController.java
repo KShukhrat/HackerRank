@@ -2,6 +2,7 @@ package uz.pdp.hackerrank.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,11 +19,13 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/{userId}/block")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> blockUser(@PathVariable UUID userId){
         return ResponseEntity.ok(userService.blockUser(userId));
     }
 
     @PutMapping("/{userId}/unblock")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Boolean> unBlockUser(@PathVariable UUID userId){
         return ResponseEntity.ok(userService.unblockUser(userId));
     }
