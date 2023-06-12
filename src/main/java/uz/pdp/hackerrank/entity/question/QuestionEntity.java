@@ -1,6 +1,7 @@
 package uz.pdp.hackerrank.entity.question;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 import uz.pdp.hackerrank.entity.BaseModel;
 
