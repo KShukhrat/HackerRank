@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
 import uz.pdp.hackerrank.entity.question.QuestionTheme;
 import uz.pdp.hackerrank.entity.question.QuestionType;
-import uz.pdp.hackerrank.service.question.QuestionService;
 
 import java.util.List;
 import java.util.UUID;
