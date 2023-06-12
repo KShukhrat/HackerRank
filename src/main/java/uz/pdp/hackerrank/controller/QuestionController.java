@@ -31,7 +31,6 @@ public class QuestionController {
     ){
         return ResponseEntity.status(200).body(questionService.getAll(page, size));
     }
-
     @PostMapping("/add")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ResponseEntity<QuestionEntity> addQuestion(

@@ -2,5 +2,6 @@ package uz.pdp.hackerrank.entity.user;
 
 public enum UserRole {
     ADMIN,
-    USER
+    USER,
+    SUPER_ADMIN
 }

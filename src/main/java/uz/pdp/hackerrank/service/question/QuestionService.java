@@ -1,6 +1,5 @@
 package uz.pdp.hackerrank.service.question;
 
-import org.springframework.http.ResponseEntity;
 import uz.pdp.hackerrank.entity.dto.QuestionCreateDto;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
 
