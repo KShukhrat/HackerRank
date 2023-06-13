@@ -20,6 +20,7 @@ import uz.pdp.hackerrank.service.user.UserService;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -73,9 +74,14 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+
     public Integer getByQuestionId(UUID questionId) {
      List<UserQuestion> userQuestions=userQuestionRepository.findUserQuestionsByQuestionId(questionId);
      return userQuestions.size();
+
+    public Optional<QuestionEntity> getById(UUID id) {
+        return questionRepository.findById(id);
+
     }
 
     public List<QuestionEntity> findByThemeAndType(QuestionTheme theme, QuestionType type){

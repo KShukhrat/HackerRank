@@ -8,10 +8,13 @@ import uz.pdp.hackerrank.entity.dto.LoginDto;
 import uz.pdp.hackerrank.entity.dto.UserCreateDto;
 import uz.pdp.hackerrank.entity.dto.response.JwtResponse;
 import uz.pdp.hackerrank.entity.user.UserEntity;
+import uz.pdp.hackerrank.entity.user.UserRole;
 import uz.pdp.hackerrank.exception.DataNotFoundException;
 import uz.pdp.hackerrank.repository.UserRepository;
 import uz.pdp.hackerrank.service.JwtService;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService{
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(
                 () -> new DataNotFoundException("USER NOT FOUND")
         );
-        userEntity.setHasBlocked(true);
+        userEntity.setIsBlocked(true);
         userRepository.save(userEntity);
         return true;
     }
@@ -54,7 +57,17 @@ public class UserServiceImpl implements UserService{
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(
                 () -> new DataNotFoundException("USER NOT FOUND")
         );
-        userEntity.setHasBlocked(false);
+        userEntity.setIsBlocked(false);
+        userRepository.save(userEntity);
+        return true;
+    }
+
+    @Override
+    public Boolean addAdmin(UUID userId) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(
+                () -> new DataNotFoundException("USER NOT FOUND")
+        );
+        userEntity.setRoles(List.of(UserRole.valueOf("ADMIN")));
         userRepository.save(userEntity);
         return true;
     }
@@ -82,5 +95,4 @@ public class UserServiceImpl implements UserService{
     public UserEntity getById(UUID userId) {
         return userRepository.findUserEntityById(userId);
     }
-
 }
