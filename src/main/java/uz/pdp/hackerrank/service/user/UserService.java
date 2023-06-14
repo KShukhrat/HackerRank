@@ -20,4 +20,6 @@ public interface UserService {
 
     UserEntity edit(UserCreateDto user, UUID id, Boolean hasBlocked);
     UserEntity getById(UUID userId);
+
+    List<UserEntity> getFromPoints();
 }
