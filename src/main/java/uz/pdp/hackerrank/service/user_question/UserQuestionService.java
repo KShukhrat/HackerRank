@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserQuestionService{
-    UserQuestion add(UUID userId,UUID questionId);
+    UserQuestion add(UUID userId,UUID questionId,String answer);
     List<UserQuestion> getUserQuestions(UserEntity userEntity);
     List<UserQuestion> getByQuestionId(UUID questionId);
 }

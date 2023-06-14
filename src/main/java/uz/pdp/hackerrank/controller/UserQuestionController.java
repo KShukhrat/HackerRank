@@ -22,9 +22,14 @@ public class UserQuestionController {
     @PostMapping("/add")
     public ResponseEntity<UserQuestion> add(
             @RequestParam UUID userId,
-            @RequestParam UUID questionId
+            @RequestParam UUID questionId,
+            @RequestParam String answer
             ){
-        return ResponseEntity.ok(userQuestionS.add(userId,questionId));
+        UserQuestion userQuestion=userQuestionS.add(userId,questionId,answer);
+        if(userQuestion==null){
+            throw new DataNotFoundException("Answer is not true");
+        }
+        return ResponseEntity.ok(userQuestion);
     }
     @GetMapping("/get/user/questions")
     public ResponseEntity<List<QuestionEntity>> getUserQuestions(

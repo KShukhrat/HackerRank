@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.hackerrank.entity.UserQuestion;
 import uz.pdp.hackerrank.entity.dto.UserQuestionDto;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
+import uz.pdp.hackerrank.entity.question.QuestionType;
 import uz.pdp.hackerrank.entity.user.UserEntity;
 import uz.pdp.hackerrank.repository.QuestionRepository;
 import uz.pdp.hackerrank.repository.UserQuestionRepository;
@@ -22,12 +23,24 @@ public class UserQuestionServiceImpl implements UserQuestionService{
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
     @Override
-    public UserQuestion add(UUID userId,UUID questionId) {
+    public UserQuestion add(UUID userId,UUID questionId,String answer) {
         UserEntity user=userRepository.findUserEntityById(userId);
         QuestionEntity question=questionRepository.findQuestionEntityById(questionId);
-        UserQuestionDto userQuestionDto=new UserQuestionDto(user,question);
-        UserQuestion userQuestion=modelMapper.map(userQuestionDto,UserQuestion.class);
-       return userQuestionRepository.save(userQuestion);
+        if(question.getAnswer().equals(answer)) {
+            if (question.getQuestionType().equals(QuestionType.EASY)) {
+                user.setUserScore(user.getUserScore() + 3);
+            } else if (question.getQuestionType().equals(QuestionType.MEDIUM)) {
+                user.setUserScore(user.getUserScore() + 5);
+            } else {
+                user.setUserScore(user.getUserScore() + 10);
+            }
+            user.setUserPoints(user.getUserPoints() + 1);
+            userRepository.save(user);
+            UserQuestionDto userQuestionDto = new UserQuestionDto(user, question);
+            UserQuestion userQuestion = modelMapper.map(userQuestionDto, UserQuestion.class);
+            return userQuestionRepository.save(userQuestion);
+        }
+        return null;
     }
 
     @Override
