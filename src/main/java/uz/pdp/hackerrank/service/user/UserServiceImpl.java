@@ -2,6 +2,7 @@ package uz.pdp.hackerrank.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.pdp.hackerrank.entity.dto.LoginDto;
@@ -94,5 +95,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserEntity getById(UUID userId) {
         return userRepository.findUserEntityById(userId);
+    }
+
+    @Override
+    public List<UserEntity> getFromPoints() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "userPoints");
+        return userRepository.findAll(sort);
     }
 }
