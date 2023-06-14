@@ -21,9 +21,10 @@ public class UserQuestionController {
     private final QuestionService questionService;
     @PostMapping("/add")
     public ResponseEntity<UserQuestion> add(
-            @RequestBody UserQuestionDto userQuestionDto
+            @RequestParam UUID userId,
+            @RequestParam UUID questionId
             ){
-        return ResponseEntity.ok(userQuestionS.add(userQuestionDto));
+        return ResponseEntity.ok(userQuestionS.add(userId,questionId));
     }
     @GetMapping("/get/user/questions")
     public ResponseEntity<List<QuestionEntity>> getUserQuestions(
