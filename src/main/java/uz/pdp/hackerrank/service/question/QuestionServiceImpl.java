@@ -13,9 +13,9 @@ import uz.pdp.hackerrank.entity.question.QuestionType;
 import uz.pdp.hackerrank.entity.user.UserEntity;
 import uz.pdp.hackerrank.exception.DataNotFoundException;
 import uz.pdp.hackerrank.repository.QuestionRepository;
+import uz.pdp.hackerrank.repository.UserQuestionRepository;
 import uz.pdp.hackerrank.repository.UserRepository;
 import uz.pdp.hackerrank.service.user.UserService;
-import uz.pdp.hackerrank.service.user_question.UserQuestionService;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class QuestionServiceImpl implements QuestionService{
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-    private final UserQuestionService userQuestionService;
+    private final UserQuestionRepository userQuestionRepository;
 
     @Override
     public QuestionEntity save(QuestionCreateDto questionCreateDto, Principal principal) {
@@ -62,7 +62,7 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public List<QuestionEntity> getUserQuestions(UUID userId) {
         UserEntity user = userService.getById(userId);
-        List<UserQuestion> userQuestions = userQuestionService.getUserQuestions(user);
+        List<UserQuestion> userQuestions = userQuestionRepository.findUserQuestionsByUser(user);
         if(userQuestions.isEmpty()){
           return null;
         }
@@ -74,8 +74,14 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+
+    public Integer getByQuestionId(UUID questionId) {
+     List<UserQuestion> userQuestions=userQuestionRepository.findUserQuestionsByQuestionId(questionId);
+     return userQuestions.size();
+
     public Optional<QuestionEntity> getById(UUID id) {
         return questionRepository.findById(id);
+
     }
 
     public List<QuestionEntity> findByThemeAndType(QuestionTheme theme, QuestionType type){

@@ -58,5 +58,11 @@ public class QuestionController {
     ){
        return ResponseEntity.ok(questionService.deleteQuestion(questionId));
     }
-
+   @GetMapping(value = "/get/question/statistic")
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public ResponseEntity<Integer> getQuestionStatistic(
+            @RequestParam UUID questionId
+   ){
+       return ResponseEntity.ok(questionService.getByQuestionId(questionId));
+   }
 }

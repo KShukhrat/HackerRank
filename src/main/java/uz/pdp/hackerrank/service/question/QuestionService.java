@@ -15,6 +15,7 @@ public interface QuestionService{
     QuestionEntity updateQuestion(UUID questionId, QuestionCreateDto questionCreateDto);
     Boolean deleteQuestion(UUID questionId);
     List<QuestionEntity> getUserQuestions(UUID userId);
+    Integer getByQuestionId(UUID questionId);
     Optional<QuestionEntity> getById(UUID id);
 
 }
