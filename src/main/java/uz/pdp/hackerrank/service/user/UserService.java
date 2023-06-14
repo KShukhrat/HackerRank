@@ -14,6 +14,7 @@ public interface UserService {
     JwtResponse login(LoginDto login);
     Boolean blockUser(UUID userId);
     Boolean unblockUser(UUID userId);
+    Boolean addAdmin(UUID userId);
 
     void deleteById(UUID userId);
 
