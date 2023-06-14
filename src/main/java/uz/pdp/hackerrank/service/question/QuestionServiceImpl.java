@@ -78,6 +78,7 @@ public class QuestionServiceImpl implements QuestionService{
     public Integer getByQuestionId(UUID questionId) {
      List<UserQuestion> userQuestions=userQuestionRepository.findUserQuestionsByQuestionId(questionId);
      return userQuestions.size();
+    }
 
     public Optional<QuestionEntity> getById(UUID id) {
         return questionRepository.findById(id);

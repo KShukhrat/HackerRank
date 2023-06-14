@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.hackerrank.entity.dto.QuestionCreateDto;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
+import uz.pdp.hackerrank.exception.DataNotFoundException;
 import uz.pdp.hackerrank.exception.RequestValidationException;
 import uz.pdp.hackerrank.service.question.QuestionService;
 
@@ -29,7 +30,11 @@ public class QuestionController {
             @RequestParam int page,
             @RequestParam int size
     ){
-        return ResponseEntity.status(200).body(questionService.getAll(page, size));
+        List<QuestionEntity> questionEntities=questionService.getAll(page, size);
+        if(questionEntities.isEmpty()){
+            throw new DataNotFoundException("Questions not found");
+        }
+        return ResponseEntity.status(200).body(questionEntities);
     }
     @PostMapping("/add")
     @PreAuthorize(value = "hasRole('ADMIN')")

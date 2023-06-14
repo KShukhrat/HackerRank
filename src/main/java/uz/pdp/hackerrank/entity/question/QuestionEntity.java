@@ -20,6 +20,4 @@ public class QuestionEntity extends BaseModel {
     private QuestionTheme theme;
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
-    private int score=5;
-    private int point=1;
 }

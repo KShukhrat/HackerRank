@@ -23,21 +23,24 @@ public class UserQuestionServiceImpl implements UserQuestionService{
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
     @Override
-    public UserQuestion add(UUID userId,UUID questionId) {
+    public UserQuestion add(UUID userId,UUID questionId,String answer) {
         UserEntity user=userRepository.findUserEntityById(userId);
         QuestionEntity question=questionRepository.findQuestionEntityById(questionId);
-        if(question.getQuestionType().equals(QuestionType.EASY)){
-            user.setUserScore(user.getUserScore()+3);
-        }else if(question.getQuestionType().equals(QuestionType.MEDIUM)){
-            user.setUserScore(user.getUserScore()+5);
-        }else {
-            user.setUserScore(user.getUserScore()+10);
+        if(question.getAnswer().equals(answer)) {
+            if (question.getQuestionType().equals(QuestionType.EASY)) {
+                user.setUserScore(user.getUserScore() + 3);
+            } else if (question.getQuestionType().equals(QuestionType.MEDIUM)) {
+                user.setUserScore(user.getUserScore() + 5);
+            } else {
+                user.setUserScore(user.getUserScore() + 10);
+            }
+            user.setUserPoints(user.getUserPoints() + 1);
+            userRepository.save(user);
+            UserQuestionDto userQuestionDto = new UserQuestionDto(user, question);
+            UserQuestion userQuestion = modelMapper.map(userQuestionDto, UserQuestion.class);
+            return userQuestionRepository.save(userQuestion);
         }
-        user.setUserPoints(user.getUserPoints()+1);
-        userRepository.save(user);
-        UserQuestionDto userQuestionDto=new UserQuestionDto(user,question);
-        UserQuestion userQuestion=modelMapper.map(userQuestionDto,UserQuestion.class);
-       return userQuestionRepository.save(userQuestion);
+        return null;
     }
 
     @Override
