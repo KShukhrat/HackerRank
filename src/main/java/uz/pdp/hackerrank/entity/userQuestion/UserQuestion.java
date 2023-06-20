@@ -1,9 +1,9 @@
-package uz.pdp.hackerrank.entity;
+package uz.pdp.hackerrank.entity.userQuestion;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
+import uz.pdp.hackerrank.entity.BaseModel;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
 import uz.pdp.hackerrank.entity.user.UserEntity;
 
@@ -13,11 +13,14 @@ import uz.pdp.hackerrank.entity.user.UserEntity;
 @Getter
 @Setter
 @Builder
-public class UserQuestion extends BaseModel{
+public class UserQuestion extends BaseModel {
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
+    @JsonIgnore
     private UserEntity user;
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     private QuestionEntity question;
+    @Enumerated(EnumType.STRING)
+    private UserQuestionStatus status;
 }
