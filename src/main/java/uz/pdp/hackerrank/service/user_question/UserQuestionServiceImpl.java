@@ -2,11 +2,11 @@ package uz.pdp.hackerrank.service.user_question;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.hackerrank.entity.userQuestion.UserQuestion;
 import uz.pdp.hackerrank.entity.dto.UserQuestionDto;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
-import uz.pdp.hackerrank.entity.question.QuestionType;
 import uz.pdp.hackerrank.entity.user.UserEntity;
 import uz.pdp.hackerrank.entity.userQuestion.UserQuestionStatus;
 import uz.pdp.hackerrank.exception.DataNotFoundException;
@@ -46,7 +46,8 @@ public class UserQuestionServiceImpl implements UserQuestionService{
 
     @Override
     public List<UserQuestion> getUserQuestions(UserEntity userEntity) {
-        return userQuestionRepository.findUserQuestionsByUser(userEntity);
+        UUID id = userEntity.getId();
+        return userQuestionRepository.findUserQuestionsByUserId(id, Sort.by(Sort.Direction.DESC, "status"));
     }
 
     @Override
