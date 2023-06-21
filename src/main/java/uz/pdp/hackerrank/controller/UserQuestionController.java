@@ -3,8 +3,7 @@ package uz.pdp.hackerrank.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.pdp.hackerrank.entity.UserQuestion;
-import uz.pdp.hackerrank.entity.dto.UserQuestionDto;
+import uz.pdp.hackerrank.entity.userQuestion.UserQuestion;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
 import uz.pdp.hackerrank.exception.DataNotFoundException;
 import uz.pdp.hackerrank.service.question.QuestionService;
@@ -17,7 +16,7 @@ import java.util.UUID;
 @RequestMapping(value = "/api/v1/user/question")
 @RequiredArgsConstructor
 public class UserQuestionController {
-    private final UserQuestionService userQuestionS;
+    private final UserQuestionService userQuestion;
     private final QuestionService questionService;
     @PostMapping("/add")
     public ResponseEntity<UserQuestion> add(
@@ -25,11 +24,11 @@ public class UserQuestionController {
             @RequestParam UUID questionId,
             @RequestParam String answer
             ){
-        UserQuestion userQuestion=userQuestionS.add(userId,questionId,answer);
-        if(userQuestion==null){
+        UserQuestion add=userQuestion.add(userId,questionId,answer);
+        if(add==null){
             throw new DataNotFoundException("Answer is not true");
         }
-        return ResponseEntity.ok(userQuestion);
+        return ResponseEntity.ok(add);
     }
     @GetMapping("/get/user/questions")
     public ResponseEntity<List<QuestionEntity>> getUserQuestions(
@@ -41,4 +40,29 @@ public class UserQuestionController {
         }
         return ResponseEntity.ok(questions);
     }
+
+    @GetMapping("/{uq}")
+    public ResponseEntity<UserQuestion> getuqById(
+        @PathVariable UUID uq
+    ){
+        UserQuestion question = userQuestion.getuqById(uq);
+        return ResponseEntity.ok(question);
+    }
+
+    @DeleteMapping("/{uq}/remove")
+    public ResponseEntity<Boolean> removeQuestion(
+            @PathVariable UUID uq
+    ){
+        Boolean remove = userQuestion.remove(uq);
+        return ResponseEntity.ok(remove);
+    }
+
+    @GetMapping("/myresults")
+    public ResponseEntity<List<UserQuestion>> getUserQuestion(
+            @RequestParam UUID userId
+    ){
+        return ResponseEntity.ok(userQuestion.getUserQuestions(userId));
+    }
+
+
 }

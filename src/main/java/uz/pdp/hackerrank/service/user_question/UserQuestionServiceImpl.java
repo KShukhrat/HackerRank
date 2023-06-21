@@ -2,12 +2,14 @@ package uz.pdp.hackerrank.service.user_question;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import uz.pdp.hackerrank.entity.UserQuestion;
+import uz.pdp.hackerrank.entity.userQuestion.UserQuestion;
 import uz.pdp.hackerrank.entity.dto.UserQuestionDto;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
-import uz.pdp.hackerrank.entity.question.QuestionType;
 import uz.pdp.hackerrank.entity.user.UserEntity;
+import uz.pdp.hackerrank.entity.userQuestion.UserQuestionStatus;
+import uz.pdp.hackerrank.exception.DataNotFoundException;
 import uz.pdp.hackerrank.repository.QuestionRepository;
 import uz.pdp.hackerrank.repository.UserQuestionRepository;
 import uz.pdp.hackerrank.repository.UserRepository;
@@ -27,29 +29,49 @@ public class UserQuestionServiceImpl implements UserQuestionService{
         UserEntity user=userRepository.findUserEntityById(userId);
         QuestionEntity question=questionRepository.findQuestionEntityById(questionId);
         if(question.getAnswer().equals(answer)) {
-            if (question.getQuestionType().equals(QuestionType.EASY)) {
-                user.setUserScore(user.getUserScore() + 3);
-            } else if (question.getQuestionType().equals(QuestionType.MEDIUM)) {
-                user.setUserScore(user.getUserScore() + 5);
-            } else {
-                user.setUserScore(user.getUserScore() + 10);
-            }
-            user.setUserPoints(user.getUserPoints() + 1);
+            user.setUserScore(user.getUserScore()+question.getScore());
+            user.setUserPoints(user.getUserPoints() + question.getPoint());
             userRepository.save(user);
             UserQuestionDto userQuestionDto = new UserQuestionDto(user, question);
             UserQuestion userQuestion = modelMapper.map(userQuestionDto, UserQuestion.class);
+            userQuestion.setStatus(UserQuestionStatus.DONE);
             return userQuestionRepository.save(userQuestion);
         }
-        return null;
+        UserQuestionDto userQuestionDto = new UserQuestionDto(user, question);
+        UserQuestion userQuestion = modelMapper.map(userQuestionDto, UserQuestion.class);
+        userQuestion.setStatus(UserQuestionStatus.INPROGRESS);
+        return userQuestionRepository.save(userQuestion);
     }
+
 
     @Override
     public List<UserQuestion> getUserQuestions(UserEntity userEntity) {
-        return userQuestionRepository.findUserQuestionsByUser(userEntity);
+        UUID id = userEntity.getId();
+        return userQuestionRepository.findUserQuestionsByUserId(id, Sort.by(Sort.Direction.DESC, "status"));
     }
 
     @Override
-    public List<UserQuestion> getByQuestionId(UUID questionId) {
-        return userQuestionRepository.findUserQuestionsByQuestionId(questionId);
+    public List<UserQuestion> getUserQuestions(UUID id) {
+        return userQuestionRepository.findUserQuestionByUserId(id);
     }
+
+    @Override
+    public Boolean remove(UUID userQuestionId) {
+        UserQuestion question = userQuestionRepository.findById(userQuestionId).orElseThrow(
+                () -> new DataNotFoundException("User question not found for remove"));
+        if(question!=null){
+            userQuestionRepository.deleteById(userQuestionId);
+        return true;
+        }
+        return false;
+    }
+
+    @Override
+    public UserQuestion getuqById(UUID id) {
+        return userQuestionRepository.findById(id).orElseThrow(
+                ()->new DataNotFoundException("Not found with id")
+        );
+    }
+
+
 }

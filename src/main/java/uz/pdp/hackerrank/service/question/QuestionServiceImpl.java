@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import uz.pdp.hackerrank.entity.UserQuestion;
+import uz.pdp.hackerrank.entity.userQuestion.UserQuestion;
 import uz.pdp.hackerrank.entity.dto.QuestionCreateDto;
 import uz.pdp.hackerrank.entity.question.QuestionEntity;
 import uz.pdp.hackerrank.entity.question.QuestionTheme;
@@ -29,12 +30,11 @@ public class QuestionServiceImpl implements QuestionService{
     private final ModelMapper modelMapper;
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
-    private final UserService userService;
     private final UserQuestionRepository userQuestionRepository;
 
     @Override
     public QuestionEntity save(QuestionCreateDto questionCreateDto, Principal principal) {
-        UserEntity userEntity = userRepository.findUserEntityByUsername(principal.getName())
+        UserEntity  userEntity = userRepository.findUserEntityByUsername(principal.getName())
                 .orElseThrow(() -> new DataNotFoundException("USER NOT FOUND"));
         QuestionEntity book = modelMapper.map(questionCreateDto, QuestionEntity.class);
         return questionRepository.save(book);
@@ -61,8 +61,7 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     public List<QuestionEntity> getUserQuestions(UUID userId) {
-        UserEntity user = userService.getById(userId);
-        List<UserQuestion> userQuestions = userQuestionRepository.findUserQuestionsByUser(user);
+        List<UserQuestion> userQuestions = userQuestionRepository.findUserQuestionsByUserId(userId, Sort.by(Sort.Direction.DESC, "status"));
         if(userQuestions.isEmpty()){
           return null;
         }
